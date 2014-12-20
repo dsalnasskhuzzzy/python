@@ -17,11 +17,9 @@ class mazeCell:
 		self.x = x
 		self.y = y
 
-	def isVisited():
-		if (self.lefWall == True) and (self.rigWall == True) and (self.topWall == True) and (self.botWall == True):
-			return False
-		else:
-			return True
+		self.isVisited = False
+
+		self.sum = int(self.lefWall)+int(self.rigWall)+int(self.topWall)+int(self.botWall)
 
 class mazeBoard:
 
@@ -48,62 +46,90 @@ class mazeBoard:
 		x = cell.x
 		y = cell.y
 		#left
-		if(verify(x-1,y)):
-			totoros.append(cells[indexOf(x-1,y)])
+		if(self.verify(x-1,y)):
+			totoros.append(self.cells[self.indexOf(x-1,y)])
 		#right
-		if(verify(x+1,y)):
-			totoros.append(cells[indexOf(x+1,y)])
+		if(self.verify(x+1,y)):
+			totoros.append(self.cells[self.indexOf(x+1,y)])
 		#top
-		if(verify(x,y+1)):
-			totoros.append(cells[indexOf(x,y+1)])
+		if(self.verify(x,y+1)):
+			totoros.append(self.cells[self.indexOf(x,y+1)])
 		#bottom
-		if(verify(x,y-1)):
-			totoros.append(cells[indexOf(x,y-1)])
+		if(self.verify(x,y-1)):
+			totoros.append(self.cells[self.indexOf(x,y-1)])
 
 		return totoros
 
 	def getUnvisitedTotoros(self,cell):
 		unvisitedTotoros = []
 
-		totoros = getTotoros(cell)
+		totoros = self.getTotoros(cell)
 		for totoro in totoros:
-			if(not totoro.isVisited()):
+			if(not totoro.isVisited):
 				unvisitedTotoros.append(totoro)
 
 		return unvisitedTotoros
 
 	def removeWallBetweenCells(self,cell1,cell2):
-		index1 = indexOf(cell1.x,cell1.y)
-		index2 = indexOf(cell2.x,cell2.y)
+		index1 = self.indexOf(cell1.x,cell1.y)
+		index2 = self.indexOf(cell2.x,cell2.y)
+		if self.cells[index1].x > self.cells[index2].x:
+			#Cell1 is to the Right of Cell2
+			self.cells[index1].lefWall = False
+			self.cells[index2].rigWall = False
+		elif self.cells[index1].x < self.cells[index2].x:
+			#Cell1 is to the Left of Cell2
+			self.cells[index1].rigWall = False
+			self.cells[index2].lefWall = False
+		elif self.cells[index1].y > self.cells[index2].y:
+			#Cell1 is Above Cell2
+			self.cells[index1].botWall = False
+			self.cells[index2].topWall = False
+		else: #self.cells[index1].y > self.cells[index2].y:
+			#Cell1 is Below Cell2
+			self.cells[index1].topWall = False
+			self.cells[index2].botWall = False
 
 
 
-	def recursiveBacktracker():
-		numCellsToVisit = self.x * self.y
+	def recursiveBacktracker(self):
+		numCellsToVisit = self.sizex * self.sizey
 		cellStack = []
 		#http://en.wikipedia.org/wiki/Maze_generation_algorithm#Recursive_backtracker
 		#1
 		currentCell = self.initialCell
 		#2
 		while numCellsToVisit > 0:
-			unvisited = getUnvisitedTotoros(currentCell)
+			unvisited = self.getUnvisitedTotoros(currentCell)
 			#1
 			if len(unvisited)>0:
 				#1
-				randPick = randint(0,len(unvisited))
+				randPick = randint(0,len(unvisited)-1)
 				#2
 				cellStack.append(unvisited[randPick])
 				#3
-				removeWallBetweenCells(currentCell,unvisited[randPick])
+				self.removeWallBetweenCells(currentCell,unvisited[randPick])
 				#4
-				currentCell = self.cells[indexOf(unvisited[randPick].x,unvisited[randPick].y)]			#2	
-			
-			"""
-			elif:
-				1==1
+				currentCell = self.cells[self.indexOf(unvisited[randPick].x,unvisited[randPick].y)]			
+				self.cells[self.indexOf(unvisited[randPick].x,unvisited[randPick].y)].isVisited = True
+				numCellsToVisit = numCellsToVisit - 1
+			#2	
+			elif len(cellStack)!=0:
+				#1
+				#2
+				currentCell = cellStack.pop()
 			#3
 			else:
-				1==1
-			"""
+				pickFrom = []
+				for x in self.cells:
+					if (not x.isVisited):
+						pickFrom.append(x)
+				randPick = randint(0,len(pickFrom)-1)		
+				currentCell = self.cells[self.indexOf(pickFrom[randPick].x,pickFrom[randPick].y)]
+				numCellsToVisit = numCellsToVisit - 1
+	def debugPrint(self):
+		for x in self.cells:
+			print x.sum
 
 a = mazeBoard(3,3)
+a.recursiveBacktracker()
