@@ -4,9 +4,6 @@ from random import randint #For selecting a random totoro
 Initial cell (0,0)
 """
 
-
-# // DIV
-# % MOD
 class mazeCell:
 	def __init__(self,x,y):
 		self.lefWall = True
@@ -37,7 +34,7 @@ class mazeBoard:
 		return x + (y*self.sizey)
 
 	def verify(self,x,y):
-		return (self.sizex > x) and (self.sizey > y) and (0<=x) and (0<=y)
+		return ((self.sizex > x) and (self.sizey > y) and (0<=x) and (0<=y))
 	
 	def getTotoros(self,cell):
 		totoros = []
@@ -126,10 +123,9 @@ class mazeBoard:
 				currentCell = self.cells[self.indexOf(pickFrom[randPick].x,pickFrom[randPick].y)]
 				numCellsToVisit = numCellsToVisit - 1
 
-	def debugPrint(self):
-		for x in self.cells:
-			print x.topWall
-			print x.rigWall
+def printMazeBoard(aMaze):
+	#I set up the coordinates of the maze in a really poor way for command line printing
+	1==1
 
 a = mazeBoard(3,3)
 a.recursiveBacktracker()
