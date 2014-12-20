@@ -133,3 +133,7 @@ class mazeBoard:
 
 a = mazeBoard(3,3)
 a.recursiveBacktracker()
+
+test = a.cells
+for t in test:
+	print "r:%s l:%s t:%s b:%s" % (t.rigWall,t.lefWall,t.topWall,t.botWall)
