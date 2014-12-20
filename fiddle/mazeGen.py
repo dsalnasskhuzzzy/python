@@ -19,8 +19,6 @@ class mazeCell:
 
 		self.isVisited = False
 
-		self.sum = int(self.lefWall)+int(self.rigWall)+int(self.topWall)+int(self.botWall)
-
 class mazeBoard:
 
 	def __init__(self,sizex,sizey):
@@ -127,9 +125,11 @@ class mazeBoard:
 				randPick = randint(0,len(pickFrom)-1)		
 				currentCell = self.cells[self.indexOf(pickFrom[randPick].x,pickFrom[randPick].y)]
 				numCellsToVisit = numCellsToVisit - 1
+
 	def debugPrint(self):
 		for x in self.cells:
-			print x.sum
+			print x.topWall
+			print x.rigWall
 
 a = mazeBoard(3,3)
 a.recursiveBacktracker()
