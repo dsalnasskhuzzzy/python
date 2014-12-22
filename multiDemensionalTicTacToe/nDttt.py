@@ -2,7 +2,6 @@ class board:
 	def __init__(self,demensions,playerCount):
 		#Both Player Count and Demensions must be natural numbers
 		self.demensions = demensions
-		self.playerCount = playerCount
 
 		self.marks = [[] for x in range(playerCount)]
 
@@ -23,14 +22,14 @@ class board:
 		#If it's not found to be a bad mark, it's Valid
 		return True
 
-	def lazyWinCheck(playerID):
+	def lazyWinCheck(self,playerID):
 		#Only checks the to see if the players last move has won them the game
-		playerMarks = self.players[playerID]
+		playerMarks = self.marks[playerID]
 		moveCount = len(playerMarks)
 		lastMark = playerMarks[moveCount-1]
 		for index in range(moveCount-1):
 			for secondIndex in range(index+1,moveCount-1):
-				if(checkWinCoords(lastMark,playerMarks[index],playerMarks[secondIndex])):
+				if(self.checkWinCoords(lastMark,playerMarks[index],playerMarks[secondIndex])):
 					return True
 		#If no valid win condition has been found the player has not won
 		return False
@@ -52,15 +51,24 @@ class board:
 		if ascendingFound:
 			return True
 
-	def checkIfPlayerHasWon(self,playerID):
-		playerMarks = self.marks[playerID]
-		#Todo
+plNum = 2
+dem = 2
+game = board(dem,plNum)
+gameDone = False
 
-
-a = board(2,2)
-print a.checkIfValidMark([1,2])
-a.addMarkForPlayer([1,2],0)
-a.addMarkForPlayer([1,0],0)
-print a.marks
-print a.checkWinCoords([0,1],[0,2],[0,0])
-
+playerID = -1
+while(not gameDone):
+	playerID = (playerID + 1) % plNum
+	mark = []
+	while mark==[]:
+		for x in range(dem):
+			input = int(raw_input("PLAYER %d Enter (0,1, or 2) for demension %d |" % (playerID,x)))
+			mark.append(input)
+			print mark
+		if not game.checkIfValidMark(mark):
+			print "Invalid Mark Thrown Away"
+			mark = []
+	print "Mark Completed"
+	game.addMarkForPlayer(mark,playerID)
+	gameDone = game.lazyWinCheck(playerID)
+print "%d has won" % (playerID)
