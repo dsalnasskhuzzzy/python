@@ -127,7 +127,7 @@ def printMazeBoard(aMaze):
 	#I set up the coordinates of the maze in a really poor way for command line printing
 	1==1
 
-a = mazeBoard(3,3)
+a = mazeBoard(3	,3)
 a.recursiveBacktracker()
 
 test = a.cells
