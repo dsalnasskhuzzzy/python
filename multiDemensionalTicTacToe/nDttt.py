@@ -40,7 +40,7 @@ class board:
 			a = c1[index]
 			b = c2[index]
 			c = c3[index]
-			ascending = (a!=b and b!=c and c!=a) and (a+b+c == 3)
+			ascending = (a!=b and b!=c and c!=a)
 			equality = a==b and b==c
 			if (not ascendingFound) and (ascending):
 				ascendingFound = True
@@ -60,6 +60,9 @@ playerID = -1
 while(not gameDone):
 	playerID = (playerID + 1) % plNum
 	mark = []
+
+	print game.marks[playerID]
+
 	while mark==[]:
 		for x in range(dem):
 			input = int(raw_input("PLAYER %d Enter (0,1, or 2) for demension %d |" % (playerID,x)))
