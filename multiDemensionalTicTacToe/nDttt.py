@@ -51,8 +51,9 @@ class board:
 		if ascendingFound:
 			return True
 
-plNum = 2
-dem = 2
+plNum = int(raw_input("How many players?: "))
+dem = int(raw_input("How many demensions?: "))
+
 game = board(dem,plNum)
 gameDone = False
 
@@ -61,17 +62,17 @@ while(not gameDone):
 	playerID = (playerID + 1) % plNum
 	mark = []
 
-	print game.marks[playerID]
+	for player in game.marks:
+		print player
 
 	while mark==[]:
 		for x in range(dem):
 			input = int(raw_input("PLAYER %d Enter (0,1, or 2) for demension %d |" % (playerID,x)))
 			mark.append(input)
-			print mark
 		if not game.checkIfValidMark(mark):
 			print "Invalid Mark Thrown Away"
 			mark = []
 	print "Mark Completed"
 	game.addMarkForPlayer(mark,playerID)
 	gameDone = game.lazyWinCheck(playerID)
-print "%d has won" % (playerID)
+print "Player %d has won" % (playerID)
